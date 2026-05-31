@@ -1,0 +1,12 @@
+{
+  "name": "ppp-pulse-ultra-backend",
+  "version": "1.0.0",
+  "description": "PPP Pulse Ultra Enterprise Backend System",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
