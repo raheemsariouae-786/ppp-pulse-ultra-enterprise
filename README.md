@@ -1,15 +1,23 @@
-PPP Pulse Ultra Enterprise
+# PPP Pulse Ultra Enterprise
 
-🌹 Pakistan Peoples Party Digital Management Platform
+A digital management platform for organizational workflows.
 
-Status
+## Features
+- Dashboard system
+- User authentication (OTP)
+- Member management
+- Complaints tracking
+- Analytics panel
 
-Project Started
+## Tech Stack
+- Node.js
+- Firebase
+- JavaScript (Frontend)
+- CSS
 
-Founder
-
-Abdul Rahim Sario
-
-Version
-
-1.0.0
+## Installation
+```bash
+git clone https://github.com/your-repo
+cd project
+npm install
+npm start
