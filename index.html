@@ -7,35 +7,40 @@
 <meta name="theme-color" content="#080808">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 :root{--red:#dd0000;--rd:#990000;--black:#080808;--gb:#00ee00;--w:#f0f0f0;--tl:#dddddd;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Nastaliq Urdu',serif;background:var(--black);color:var(--w);min-height:100vh;overflow-x:hidden;direction:rtl;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:#353534;border-radius:10px;}
 .screen{display:none;min-height:100vh;flex-direction:column;}
 .screen.active{display:flex;}
 #sl{background:radial-gradient(ellipse at 15% 40%,rgba(221,0,0,.45) 0%,transparent 45%),radial-gradient(ellipse at 85% 40%,rgba(0,238,0,.35) 0%,transparent 45%),linear-gradient(135deg,#1a0000,#080808 40%,#001400);align-items:center;justify-content:center;padding:20px;}
-.lc{background:rgba(8,8,8,.95);border:1px solid rgba(221,0,0,.5);border-radius:16px;padding:28px 24px;width:100%;max-width:400px;box-shadow:0 0 60px rgba(221,0,0,.2);}
+.lc{background:rgba(18,18,18,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-top:1px solid rgba(221,0,0,.3);border-radius:16px;padding:28px 24px;width:100%;max-width:400px;box-shadow:0 0 60px rgba(221,0,0,.2);}
 .pf{display:flex;direction:ltr;width:72px;height:44px;margin:0 auto 16px;border-radius:4px;overflow:hidden;}
 .pf div{flex:1;}
 .lt{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:900;color:#fff;text-align:center;letter-spacing:3px;margin-bottom:4px;}
 .ls{font-size:12px;color:rgba(0,220,0,.85);text-align:center;margin-bottom:20px;line-height:1.8;}
 .fg{margin-bottom:14px;}
 .fl{display:block;font-size:11px;color:var(--tl);margin-bottom:6px;}
-.fi{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(204,0,0,.3);border-radius:8px;padding:11px 14px;color:var(--w);font-family:'Noto Nastaliq Urdu',serif;font-size:13px;direction:rtl;outline:none;}
-.fi:focus{border-color:var(--red);background:rgba(204,0,0,.1);}
-.fi::placeholder{color:rgba(255,255,255,.3);}
+.fi{width:100%;background:rgba(14,14,14,.9);border:1px solid rgba(38,38,38,.9);border-radius:8px;padding:11px 14px;color:var(--w);font-family:'Noto Nastaliq Urdu',serif;font-size:13px;direction:rtl;outline:none;transition:all .2s;}
+.fi:focus{border-color:var(--red);background:rgba(204,0,0,.08);box-shadow:0 0 0 3px rgba(221,0,0,.15);}
+.fi::placeholder{color:rgba(255,255,255,.25);}
 select.fi option{background:#1a0000;}
-.bp{width:100%;background:linear-gradient(135deg,var(--rd),var(--red));border:none;border-radius:10px;padding:13px;color:#fff;font-family:'Noto Nastaliq Urdu',serif;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(204,0,0,.4);}
+.bp{width:100%;background:linear-gradient(135deg,var(--rd),var(--red));border:none;border-radius:10px;padding:13px;color:#fff;font-family:'Noto Nastaliq Urdu',serif;font-size:15px;cursor:pointer;box-shadow:0 4px 20px rgba(204,0,0,.4);transition:transform .15s,opacity .15s;}
+.bp:active{transform:scale(.98);}
 .bp:disabled{opacity:.6;}
 .bs{background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px;color:var(--tl);font-family:'Noto Nastaliq Urdu',serif;font-size:12px;cursor:pointer;width:100%;margin-top:8px;}
 .rl{text-align:center;margin-top:14px;font-size:11px;color:rgba(255,255,255,.4);}
 .rl a{color:#00dd00;cursor:pointer;}
 .rtabs{display:flex;gap:5px;margin-bottom:16px;background:rgba(0,0,0,.3);border-radius:10px;padding:4px;}
-.rt{flex:1;padding:7px 3px;border:none;border-radius:7px;background:transparent;color:rgba(255,255,255,.5);font-family:'Noto Nastaliq Urdu',serif;font-size:10px;cursor:pointer;text-align:center;}
+.rt{flex:1;padding:7px 3px;border:none;border-radius:7px;background:transparent;color:rgba(255,255,255,.5);font-family:'Noto Nastaliq Urdu',serif;font-size:10px;cursor:pointer;text-align:center;transition:background .2s;}
 .rt.active{background:var(--rd);color:#fff;}
 .ph{font-size:10px;color:rgba(255,255,255,.35);text-align:center;margin-top:8px;line-height:1.6;}
-.tb{background:linear-gradient(90deg,#330000,#080808 40%,#003300);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0;border-bottom:1px solid rgba(100,0,0,.5);}
+.tb{background:rgba(15,15,15,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.08);}
 .tbl{display:flex;align-items:center;gap:9px;}
 .tf{display:flex;direction:ltr;width:30px;height:19px;border-radius:2px;overflow:hidden;}
 .tf div{flex:1;}
@@ -45,20 +50,21 @@ select.fi option{background:#1a0000;}
 .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--rd),var(--red));border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:13px;}
 .un{font-size:10px;color:#eee;text-align:right;}
 .ur{font-size:9px;color:#00ee00;}
-.bn{position:fixed;bottom:0;left:0;right:0;background:rgba(6,6,6,.97);border-top:1px solid rgba(100,0,0,.5);display:flex;z-index:100;}
-.ni{flex:1;padding:9px 3px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:transparent;}
+.bn{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.08);display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.5);}
+.ni{flex:1;padding:9px 3px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:transparent;transition:transform .15s;}
+.ni:active{transform:scale(.92);}
 .ni .ic{font-size:19px;}
 .ni .nl{font-size:8px;color:rgba(255,255,255,.4);font-family:'Noto Nastaliq Urdu',serif;}
 .ni.active .nl{color:#00ee00;}
 .pc{flex:1;padding:14px;padding-bottom:76px;overflow-y:auto;}
 .tp{display:none;}
 .tp.active{display:block;}
-.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;margin-bottom:12px;}
+.card{background:rgba(18,18,18,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:12px;}
 .cr{background:linear-gradient(135deg,rgba(204,0,0,.15),rgba(136,0,0,.1));border-color:rgba(204,0,0,.3);}
 .cg{background:linear-gradient(135deg,rgba(26,107,26,.15),rgba(0,80,0,.1));border-color:rgba(34,170,34,.3);}
 .cb{background:linear-gradient(135deg,rgba(0,60,150,.15),rgba(0,40,100,.1));border-color:rgba(0,100,200,.3);}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
-.sc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;text-align:center;}
+.sc{background:rgba(18,18,18,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 12px;text-align:center;transition:transform .2s;}
 .si{font-size:22px;margin-bottom:5px;}
 .sn{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:700;color:#fff;}
 .sl{font-size:9px;color:rgba(255,255,255,.5);margin-top:2px;}
@@ -71,7 +77,7 @@ select.fi option{background:#1a0000;}
 .bg{background:rgba(0,220,0,.15);border:1px solid rgba(0,220,0,.5);color:#44ff44;}
 .bo{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.35);color:#fff;}
 .bb{background:rgba(0,100,200,.2);border:1px solid rgba(0,100,200,.4);color:#66aaff;}
-.bcc{background:linear-gradient(135deg,#0a0a0a,#180000 50%,#001800);border:1px solid rgba(221,0,0,.4);border-radius:14px;padding:18px;margin-bottom:12px;}
+.bcc{background:linear-gradient(135deg,rgba(10,10,10,.85),rgba(24,0,0,.7) 50%,rgba(0,24,0,.7));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(221,0,0,.4);border-radius:14px;padding:18px;margin-bottom:12px;}
 .bt{font-size:13px;color:#fff;margin-bottom:7px;font-weight:600;}
 .bm{font-size:11px;color:var(--tl);line-height:1.8;margin-bottom:10px;}
 .bmt{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
@@ -81,10 +87,10 @@ select.fi option{background:#1a0000;}
 .bsg{background:linear-gradient(135deg,#0a3a0a,var(--gb));color:#fff;}
 .bsb{background:linear-gradient(135deg,#001a4a,#1d9bf0);color:#fff;}
 .bso{background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--tl);}
-.co{width:100%;max-width:440px;margin:0 auto 18px;border-radius:14px;overflow:hidden;direction:ltr;box-shadow:0 12px 40px rgba(0,0,0,.9);}
+.co{width:100%;max-width:440px;margin:0 auto 18px;border-radius:14px;overflow:hidden;direction:ltr;box-shadow:0 12px 40px rgba(0,0,0,.9),0 0 30px rgba(221,0,0,.15);}
 .cf{display:flex;height:9px;width:100%;}
 .cfr{flex:1;background:#cc0000;}.cfb{flex:1;background:#111;}.cfg{flex:1;background:#00bb00;}
-.cb2{background:linear-gradient(160deg,#0d0d0d,#1c0000 45%,#001400);padding:12px 13px 10px;}
+.cb2{background:linear-gradient(135deg,rgba(221,0,0,.12) 0%,rgba(13,13,13,.95) 50%,rgba(0,238,0,.08) 100%);backdrop-filter:blur(10px);padding:12px 13px 10px;}
 .ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .chl{display:flex;align-items:center;gap:6px;}
 .cmf{display:flex;width:28px;height:18px;border-radius:3px;overflow:hidden;}
@@ -112,6 +118,8 @@ select.fi option{background:#1a0000;}
 .cvf{display:flex;align-items:center;gap:3px;font-size:7.5px;color:#44ff88;font-weight:600;}
 .cvd{width:5px;height:5px;border-radius:50%;background:#44ff88;animation:vb 2s infinite;}
 @keyframes vb{0%,100%{opacity:1}50%{opacity:.15}}
+@keyframes cardGlow{0%,100%{box-shadow:0 12px 40px rgba(0,0,0,.9),0 0 30px rgba(221,0,0,.15)}50%{box-shadow:0 12px 40px rgba(0,0,0,.9),0 0 40px rgba(221,0,0,.25)}}
+.co{animation:cardGlow 3s infinite ease-in-out;}
 .cq{width:42px;height:42px;background:#fff;border-radius:4px;padding:3px;flex-shrink:0;}
 .cq svg{width:100%;height:100%;}
 .rp{display:flex;gap:4px;margin-bottom:22px;}
@@ -133,7 +141,7 @@ textarea.fi{resize:vertical;min-height:80px;}
 .mt{font-size:16px;font-weight:700;margin-bottom:7px;}
 .mm{font-size:11px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px;}
 .mid{font-family:'Orbitron',sans-serif;font-size:13px;color:#00ff88;margin-bottom:14px;word-break:break-all;}
-.ph2{background:linear-gradient(135deg,#200000,#080808 50%,#001a00);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:22px;text-align:center;margin-bottom:18px;}
+.ph2{background:radial-gradient(circle at 20% 30%,rgba(221,0,0,.18) 0%,transparent 55%),radial-gradient(circle at 80% 70%,rgba(0,238,0,.12) 0%,transparent 55%),rgba(18,18,18,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px 20px;text-align:center;margin-bottom:18px;box-shadow:0 0 30px rgba(221,0,0,.1);}
 .pa{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,var(--rd),var(--red));border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;}
 .pn{font-size:18px;font-weight:700;}
 .pp{font-size:11px;color:#00dd00;margin-top:3px;}
@@ -191,6 +199,11 @@ textarea.fi{resize:vertical;min-height:80px;}
 #gr{font-size:10px;color:var(--gb);margin-top:5px;}
 .sp{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;}
 @keyframes sp{to{transform:rotate(360deg)}}
+.forum-topic{background:rgba(255,255,255,.05);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer;border:1px solid rgba(255,255,255,.1);}
+.forum-topic:hover{background:rgba(204,0,0,.1);border-color:var(--red);}
+.forum-title{font-size:13px;font-weight:600;margin-bottom:5px;}
+.forum-meta{font-size:9px;color:rgba(255,255,255,.4);display:flex;justify-content:space-between;}
+.topic-badge{padding:2px 8px;border-radius:10px;font-size:8px;background:rgba(0,200,100,.2);color:#44ff88;}
 @media(max-width:360px){.fr{grid-template-columns:1fr;}.asr{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
@@ -208,11 +221,12 @@ textarea.fi{resize:vertical;min-height:80px;}
    <button class="rt" onclick="setRole('ضلع',this)">ضلع</button>
    <button class="rt" onclick="setRole('ایڈمن',this)">ایڈمن</button>
   </div>
-  <div class="fg"><label class="fl">&#x1F464; یوزر نام</label><input type="text" class="fi" id="lu" placeholder="اپنا نام لکھیں"></div>
+  <div class="fg"><label class="fl">&#x1F4E7; ای میل</label><input type="email" class="fi" id="lu" placeholder="apkaemail@example.com" dir="ltr"></div>
   <div class="fg"><label class="fl">&#x1F510; پاس ورڈ</label><input type="password" class="fi" id="lp" placeholder="پاس ورڈ" dir="ltr" onkeypress="if(event.keyCode==13)doLogin()"></div>
-  <button class="bp" id="blb" onclick="doLogin()">&#x1F511; داخل ہوں</button>
+  <button class="bp" id="blb" onclick="doLogin()">&#x1F511; لاگ ان کریں</button>
   <div class="rl" style="margin-top:0"></div>
   <div class="rl">ابھی تک رجسٹرڈ نہیں؟ <a onclick="showScreen('sr')">نیا اکاؤنٹ بنائیں</a></div>
+  <div class="ph">Firebase Authentication کے ذریعے محفوظ لاگ ان</div>
  </div>
 </div>
 
@@ -256,6 +270,7 @@ textarea.fi{resize:vertical;min-height:80px;}
     <button class="card" style="cursor:pointer;text-align:center;border:none;background:rgba(255,255,255,.04)" onclick="navTo('pbc')"><div style="font-size:26px;margin-bottom:5px">&#x1F4E2;</div><div style="font-size:11px">نشریات</div><div style="font-size:8.5px;color:rgba(255,255,255,.45);margin-top:2px">قیادت کے پیغامات پڑھیں</div></button>
     <button class="card" style="cursor:pointer;text-align:center;border:none;background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.25)" onclick="navTo('psmc')"><div style="font-size:26px;margin-bottom:5px">&#x1F4E3;</div><div style="font-size:11px">سوشل میڈیا مہم</div><div style="font-size:8.5px;color:rgba(255,255,255,.45);margin-top:2px">ٹاسک اپنے اکاؤنٹس پر شیئر کریں</div></button>
     <button class="card" style="cursor:pointer;text-align:center;border:none;background:rgba(150,0,220,.08);border:1px solid rgba(150,0,220,.25)" onclick="navTo('pai')"><div style="font-size:26px;margin-bottom:5px">&#x1F916;</div><div style="font-size:11px">AI اسسٹنٹ</div><div style="font-size:8.5px;color:rgba(255,255,255,.45);margin-top:2px">app کے استعمال میں مدد لیں</div></button>
+    <button class="card" style="cursor:pointer;text-align:center;border:none;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.25)" onclick="navTo('pfr')"><div style="font-size:26px;margin-bottom:5px">&#x1F4AC;</div><div style="font-size:11px">PPP فورم</div><div style="font-size:8.5px;color:rgba(255,255,255,.45);margin-top:2px">موضوعات پر بحث کریں</div></button>
    </div>
   </div>
 
@@ -275,6 +290,38 @@ textarea.fi{resize:vertical;min-height:80px;}
    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-size:22px">&#x1F4E3;</span><div><div style="font-size:17px;font-weight:600">سوشل میڈیا مہم</div><div style="font-size:10px;color:rgba(255,255,255,.5)">قیادت کی فوری ہدایات — اپنے اکاؤنٹس پر پھیلائیں</div></div></div>
    <div style="background:rgba(0,180,255,.08);border:1px solid rgba(0,180,255,.25);border-radius:10px;padding:9px 12px;margin-bottom:14px;font-size:10px;color:rgba(150,220,255,.85)">&#x2139; جب بھی نیا ٹاسک آئے، نیچے دیے گئے بٹن سے سیدھا اپنے Twitter/Facebook/TikTok پر پوسٹ یا شیئر کریں۔</div>
    <div id="smcList"><div style="text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,.4)">لوڈ ہو رہا ہے...</div></div>
+  </div>
+
+  <!-- FORUM (Topic-based discussions) -->
+  <div class="tp" id="pfr">
+   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-size:22px">&#x1F4AC;</span><div><div style="font-size:17px;font-weight:600">PPP فورم</div><div style="font-size:10px;color:rgba(255,255,255,.5)">موضوعات پر بحث و مباحثہ</div></div></div>
+   <div id="forumTopicsList">
+    <div class="forum-topic" onclick="openForumTopic('strategy')">
+     <div class="forum-title">&#x1F3DB; پارٹی حکمت عملی</div>
+     <div class="forum-meta"><span>بحث میں شامل ہوں</span><span class="topic-badge">فعال</span></div>
+    </div>
+    <div class="forum-topic" onclick="openForumTopic('social')">
+     <div class="forum-title">&#x1F4E3; سوشل میڈیا مہم</div>
+     <div class="forum-meta"><span>بحث میں شامل ہوں</span><span class="topic-badge">گرم</span></div>
+    </div>
+    <div class="forum-topic" onclick="openForumTopic('issues')">
+     <div class="forum-title">&#x1F6A8; عوامی مسائل</div>
+     <div class="forum-meta"><span>بحث میں شامل ہوں</span><span class="topic-badge">نیا</span></div>
+    </div>
+    <div class="forum-topic" onclick="openForumTopic('ideas')">
+     <div class="forum-title">&#x1F4A1; تجاویز و آراء</div>
+     <div class="forum-meta"><span>بحث میں شامل ہوں</span><span class="topic-badge">خیال</span></div>
+    </div>
+   </div>
+   <div id="forumDiscussion" style="display:none;margin-top:14px">
+    <button class="bs2 bso" style="width:100%;margin-bottom:10px" onclick="closeForumTopic()">&#x2190; موضوعات کی فہرست پر واپس</button>
+    <div id="forumTopicTitle" style="font-size:13px;font-weight:600;margin-bottom:10px"></div>
+    <div id="forumMsgs" style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;margin-bottom:12px;min-height:250px;max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+    <div style="display:flex;gap:7px">
+     <input type="text" class="fi" id="forumInput" placeholder="اپنی رائے دیں..." style="flex:1" onkeypress="if(event.keyCode==13)sendForumMessage()">
+     <button class="bs2 bsr" onclick="sendForumMessage()" style="flex:0;padding:11px 16px">&#x1F4E4;</button>
+    </div>
+   </div>
   </div>
 
   <!-- REPS -->
@@ -467,7 +514,7 @@ textarea.fi{resize:vertical;min-height:80px;}
     <div class="pn" id="pfn">عبدالرحیم ساریو</div>
     <div class="pp">لیبر کونسلر — TMC سہراب گوٹھ</div>
     <div style="display:flex;gap:5px;justify-content:center;margin-top:9px;flex-wrap:wrap">
-     <span class="bdg br" id="prb">PPP ورکر</span><span class="bdg bo">تصدیق شدہ</span><span class="bdg bg">سرگرم</span>
+     <span class="bdg br" id="prb">PPP ورکر</span><span class="bdg bo" id="pvb">زیرِ تصدیق</span><span class="bdg bg">سرگرم</span>
     </div>
    </div>
    <div class="pig">
@@ -563,6 +610,8 @@ textarea.fi{resize:vertical;min-height:80px;}
   <div id="rg1">
    <div style="font-size:13px;color:#fff;margin-bottom:14px;font-weight:600">ذاتی معلومات</div>
    <div class="fg"><label class="fl">&#x1F464; پورا نام (لازمی)</label><input type="text" class="fi" id="rn" placeholder="محمد علی احمد"></div>
+   <div class="fg"><label class="fl">&#x1F4E7; ای میل (لازمی)</label><input type="email" class="fi" id="rem" placeholder="apkaemail@example.com" dir="ltr"></div>
+   <div class="fg"><label class="fl">&#x1F510; پاس ورڈ (کم از کم 6 حروف)</label><input type="password" class="fi" id="rpw" placeholder="******" dir="ltr"></div>
    <div class="fg"><label class="fl">&#x1F194; CNIC (لازمی)</label><input type="text" class="fi" id="rc" placeholder="42101-XXXXXXX-X" dir="ltr" maxlength="15"></div>
    <div class="fr">
     <div class="fg"><label class="fl">&#x1F4F1; موبائل</label><input type="tel" class="fi" id="rph" placeholder="03XX-XXXXXXX" dir="ltr"></div>
@@ -573,7 +622,9 @@ textarea.fi{resize:vertical;min-height:80px;}
   <div id="rg2" style="display:none">
    <div style="font-size:13px;color:#fff;margin-bottom:14px;font-weight:600">پارٹی معلومات</div>
    <div class="fg"><label class="fl">&#x1F5FA; ضلع</label><select class="fi" id="rd"><option value="">ضلع منتخب کریں</option></select></div>
+   <div class="fg"><label class="fl">&#x1F3DB; تعلقہ / PS</label><input type="text" class="fi" id="rtehsil" placeholder="مثلاً PS-128"></div>
    <div class="fg"><label class="fl">&#x1F3D8; یونین کونسل</label><input type="text" class="fi" id="ru" placeholder="UC نمبر یا نام"></div>
+   <div class="fg"><label class="fl">&#x1F465; ریفرنس ممبر (اگر کوئی آپ کو پارٹی میں لایا)</label><input type="text" class="fi" id="rref" placeholder="ریفرنس ممبر کا نام / ID (اختیاری)"></div>
    <div class="fg"><label class="fl">&#x1F396; پارٹی عہدہ</label>
     <select class="fi" id="rpo" onchange="toggleCustomPos('rpo','rpo-custom')">
      <optgroup label="UC سطح">
@@ -660,22 +711,24 @@ var firebaseConfig = {
 };
 var fbReady = false;
 var db = null;
+var auth = null;
 try {
   firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  auth = firebase.auth();
   fbReady = true;
 } catch (e) {
   fbReady = false;
 }
 
 // ═══ PASSWORDS ═══
-var WP = 'ppp786';
-var AP = 'tmc786';
+// (legacy shared passwords removed — Firebase Auth email/password used instead)
 
 // ═══ STATE ═══
 var cRole = 'ورکر';
 var isAdm = false;
 var cUser = '';
+var cUserId = '';
 var bcT = 'ایمرجنسی';
 var rTF = 'سب';
 var gLat = null;
@@ -708,10 +761,17 @@ var REPS = [
   {n:'عاجز ڈمرہ',p:'انفارمیشن سیکریٹری PPP سندھ | سینیٹر',c:'سندھ',t:'قیادت',tw:'',v:false,e:'📢',d:'سندھ'},
   // کراچی ڈویژن عہدیداران (تصدیق شدہ)
   {n:'سعید غنی',p:'صدر PPP کراچی ڈویژن | صوبائی وزیر',c:'کراچی ڈویژن',t:'قیادت',tw:'SaeedGhani1',v:true,e:'👤',d:'کراچی ایسٹ'},
-  {n:'عبدالرؤف نگوری',p:'جنرل سیکریٹری PPP کراچی ڈویژن',c:'کراچی ڈویژن',t:'قیادت',tw:'',v:false,e:'✍️',d:'کراچی سینٹرل'},
+  {n:'رؤف احمد ناگوری',p:'جنرل سیکریٹری PPP کراچی ڈویژن',c:'کراچی ڈویژن',t:'قیادت',tw:'RaufNagori',v:false,e:'✍️',d:'کراچی سینٹرل'},
   {n:'شرمیلہ فاروقی',p:'انفارمیشن سیکریٹری PPP کراچی ڈویژن',c:'کراچی ڈویژن',t:'قیادت',tw:'',v:false,e:'📢',d:'کراچی سینٹرل'},
   // میئر
-  {n:'مرتضیٰ وہاب',p:'میئر کراچی',c:'KMC کراچی',t:'میئر',tw:'MurtazaWahab',v:true,e:'🏙️',d:'کراچی سینٹرل'},
+  {n:'مرتضیٰ وہاب',p:'میئر کراچی',c:'KMC کراچی',t:'میئر',tw:'murtazawahab1',v:true,e:'🏙️',d:'کراچی سینٹرل'},
+  // مزید تصدیق شدہ خواتین رہنما
+  {n:'شازیہ عطا مری',p:'MNA سانگھڑ | انفارمیشن سیکریٹری PPP-P',c:'NA-209 سانگھڑ',t:'قیادت',tw:'ShaziaAttaMarri',v:false,e:'👩',d:'سانگھڑ'},
+  {n:'بختاور بھٹو زرداری',p:'چیئرپرسن SZABIST | رکن بھٹو خاندان',c:'',t:'قیادت',tw:'BakhtawarBZ',v:true,e:'👩',d:''},
+  {n:'ڈاکٹر شاہدہ رحمانی',p:'MNA | صدر PPP کراچی ڈویژن ویمن ونگ',c:'کراچی ڈویژن',t:'قیادت',tw:'ShahidaRehmani',v:false,e:'👩',d:'کراچی سینٹرل'},
+  {n:'روما مشتاق متو',p:'MPA سندھ اسمبلی',c:'PS سندھ',t:'MPA',tw:'RomaMMatto',v:false,e:'👩',d:'سندھ'},
+  {n:'فریال تالپور',p:'سینیٹر PPP',c:'سندھ سینیٹ',t:'قیادت',tw:'FaryalTalpurPk',v:false,e:'👩',d:''},
+  {n:'سیدہ وجیہہ عابد رحمانی',p:'PPP سوشل میڈیا',c:'',t:'قیادت',tw:'WajihaAbid1',v:false,e:'📱',d:''},
   // MNA
   {n:'عیجاز احمد جکھرانی',p:'MNA جیکب آباد',c:'NA-190',t:'MNA',tw:'',v:false,e:'👨',d:'جیکب آباد'},
   {n:'شہریار خان مہر',p:'MNA شکارپور',c:'NA-193',t:'MNA',tw:'',v:false,e:'👨',d:'شکارپور'},
@@ -907,60 +967,47 @@ function setRole(r, btn) {
 }
 
 function doLogin() {
-  var u = document.getElementById('lu').value.trim();
-  var p = document.getElementById('lp').value.trim();
-  if (!u) { SA('⚠️','نامکمل','یوزر نام درج کریں'); return; }
-  if (!p) { SA('⚠️','نامکمل','پاس ورڈ درج کریں'); return; }
+  var email = document.getElementById('lu').value.trim();
+  var password = document.getElementById('lp').value.trim();
+  if (!email) { SA('⚠️','نامکمل','ای میل درج کریں'); return; }
+  if (!password) { SA('⚠️','نامکمل','پاس ورڈ درج کریں'); return; }
 
-  // Check shared admin password first
-  if (p === AP) { completeLogin(u, true, null); return; }
+  if (!fbReady || !auth) { SA('❌','خرابی','سروس دستیاب نہیں، دوبارہ کوشش کریں'); return; }
 
-  // Check shared worker password (legacy/quick access)
-  if (p === WP) { completeLogin(u, false, null); return; }
-
-  // Check individual member password from Firestore
   var btn = document.getElementById('blb');
-  btn.innerHTML = '⏳ تصدیق ہو رہی ہے...';
+  btn.innerHTML = '⏳ لاگ ان ہو رہا ہے...';
   btn.disabled = true;
 
-  if (fbReady && db) {
-    db.collection('members').where('password', '==', p).limit(1).get().then(function(snap) {
-      btn.innerHTML = '🔑 داخل ہوں';
-      btn.disabled = false;
-      if (!snap.empty) {
-        var m = snap.docs[0].data();
-        if (m.status === 'منظور') {
-          completeLogin(m.name || u, !!m.isAdmin, m);
-        } else {
-          SA('⏳','منظوری باقی ہے','آپ کی درخواست ابھی ایڈمن کی منظوری کا انتظار کر رہی ہے');
-        }
-      } else {
-        checkLocalMemberPassword(u, p, btn);
-      }
-    }).catch(function() {
-      btn.innerHTML = '🔑 داخل ہوں';
-      btn.disabled = false;
-      checkLocalMemberPassword(u, p, btn);
-    });
-  } else {
-    checkLocalMemberPassword(u, p, btn);
-  }
+  auth.signInWithEmailAndPassword(email, password).then(function(userCredential) {
+    btn.innerHTML = '🔑 لاگ ان کریں';
+    btn.disabled = false;
+    cUserId = userCredential.user.uid;
+    loadUserData(email);
+  }).catch(function(error) {
+    btn.innerHTML = '🔑 لاگ ان کریں';
+    btn.disabled = false;
+    var msg = 'لاگ ان ناکام: ' + (error.code || '') + ' — ' + (error.message || JSON.stringify(error));
+    if (error.code === 'auth/user-not-found') msg = 'یہ ای میل رجسٹرڈ نہیں — پہلے رجسٹریشن کریں';
+    else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'پاس ورڈ غلط ہے';
+    else if (error.code === 'auth/invalid-email') msg = 'ای میل کا فارمیٹ غلط ہے';
+    else if (error.code === 'auth/too-many-requests') msg = 'بہت زیادہ کوششیں — کچھ دیر بعد آزمائیں';
+    SA('❌','خرابی',msg);
+  });
 }
 
-function checkLocalMemberPassword(u, p, btn) {
-  var local = JSON.parse(localStorage.getItem('ppp_members') || '[]');
-  for (var i = 0; i < local.length; i++) {
-    if (local[i].password === p) {
-      if (local[i].status === 'منظور') {
-        completeLogin(local[i].name || u, !!local[i].isAdmin, local[i]);
-        return;
-      } else {
-        SA('⏳','منظوری باقی ہے','آپ کی درخواست ابھی ایڈمن کی منظوری کا انتظار کر رہی ہے');
-        return;
-      }
+function loadUserData(email) {
+  db.collection('members').where('email', '==', email).limit(1).get().then(function(snap) {
+    if (!snap.empty) {
+      var data = snap.docs[0].data();
+      data._docId = snap.docs[0].id;
+      completeLogin(data.name || email.split('@')[0], !!data.isAdmin, data);
+    } else {
+      var fallbackName = email.split('@')[0];
+      completeLogin(fallbackName, false, {email: email});
     }
-  }
-  SA('❌','پاس ورڈ غلط','یہ پاس ورڈ درست نہیں۔ اگر آپ نے رجسٹریشن کی ہے، ایڈمن کی منظوری اور پاس ورڈ کا انتظار کریں۔');
+  }).catch(function() {
+    completeLogin(email.split('@')[0], false, {email: email});
+  });
 }
 
 function completeLogin(name, adminFlag, memberData) {
@@ -977,6 +1024,12 @@ function completeLogin(name, adminFlag, memberData) {
     if (memberData.uc) document.getElementById('cuc').textContent = memberData.uc;
     if (memberData.memberId) { document.getElementById('cmi').textContent = memberData.memberId; document.getElementById('pmid').textContent = memberData.memberId; }
     if (memberData.photo) document.getElementById('cardPhotoBox').innerHTML = '<img src="' + memberData.photo + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px">';
+    var vb = document.getElementById('pvb');
+    if (vb) {
+      var isVerified = (memberData.status === 'تصدیق شدہ' || memberData.status === 'منظور' || memberData.status === 'فعال');
+      vb.textContent = isVerified ? '✓ تصدیق شدہ' : 'زیرِ تصدیق';
+      vb.className = isVerified ? 'bdg bg' : 'bdg bo';
+    }
   }
   if (isAdm) {
     document.getElementById('aab').style.display = 'block';
@@ -1187,64 +1240,62 @@ function regN(step) {
   }
   if (step === 4) {
     document.getElementById('pvn').textContent = document.getElementById('rn').value || 'آپ کا نام';
-    document.getElementById('pvc').textContent = 'CNIC: ' + (document.getElementById('rc').value || '———');
+    document.getElementById('pvc').textContent = 'ای میل: ' + (document.getElementById('rem').value || '———');
     document.getElementById('pvd').textContent = 'ضلع: ' + (document.getElementById('rd').value || '———');
   }
 }
 
 function compReg() {
   var name = document.getElementById('rn').value.trim();
+  var email = document.getElementById('rem').value.trim();
+  var password = document.getElementById('rpw').value.trim();
   var cnic = document.getElementById('rc').value.trim();
   var phone = document.getElementById('rph').value.trim();
-  if (!name || !cnic || !phone) { SA('⚠️','نامکمل','نام، CNIC اور موبائل لازمی ہیں'); return; }
-  var mid = 'PPP-' + Date.now().toString().slice(-5);
-  var memberData = {
-    memberId: mid, name: name, cnic: cnic, phone: phone,
-    age: document.getElementById('ra').value,
-    district: document.getElementById('rd').value,
-    uc: document.getElementById('ru').value,
-    position: getPosValue('rpo', 'rpo-custom'),
-    twitter: document.getElementById('rtw').value,
-    fb: document.getElementById('rfb').value,
-    photo: regPhotoData || null,
-    status: 'زیرِ کارروائی',
-    password: null,
-    time: new Date().toISOString()
-  };
+
+  if (!name || !email || !password) { SA('⚠️','نامکمل','نام، ای میل اور پاس ورڈ لازمی ہیں'); return; }
+  if (password.length < 6) { SA('⚠️','پاس ورڈ کمزور','پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے'); return; }
+  if (!cnic || !phone) { SA('⚠️','نامکمل','CNIC اور موبائل لازمی ہیں'); return; }
+
+  if (!fbReady || !auth) { SA('❌','خرابی','سروس دستیاب نہیں، دوبارہ کوشش کریں'); return; }
+
   var btn = document.getElementById('bcr');
-  btn.innerHTML = '⏳ بھیجا جا رہا ہے...';
+  btn.innerHTML = '⏳ رجسٹر ہو رہا ہے...';
   btn.disabled = true;
 
-  function afterSave() {
-    document.getElementById('cnm').textContent = name;
-    document.getElementById('cps').textContent = document.getElementById('rpo').value;
-    document.getElementById('car').textContent = document.getElementById('rd').value;
-    document.getElementById('cuc').textContent = document.getElementById('ru').value;
-    document.getElementById('cmi').textContent = mid;
-    if (regPhotoData) {
-      document.getElementById('cardPhotoBox').innerHTML = '<img src="' + regPhotoData + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px">';
-    }
+  var mid = 'PPP-' + Date.now().toString().slice(-5);
+
+  auth.createUserWithEmailAndPassword(email, password).then(function(userCredential) {
+    cUserId = userCredential.user.uid;
+    var memberData = {
+      memberId: mid, name: name, email: email, cnic: cnic, phone: phone,
+      age: document.getElementById('ra').value,
+      district: document.getElementById('rd').value,
+      tehsil: document.getElementById('rtehsil').value,
+      uc: document.getElementById('ru').value,
+      referenceMember: document.getElementById('rref').value,
+      position: getPosValue('rpo', 'rpo-custom'),
+      twitter: document.getElementById('rtw').value,
+      fb: document.getElementById('rfb').value,
+      photo: regPhotoData || null,
+      status: 'زیرِ تصدیق',
+      isAdmin: false,
+      time: new Date().toISOString()
+    };
+    return db.collection('members').add(memberData);
+  }).then(function() {
     btn.innerHTML = 'رجسٹریشن مکمل کریں 🎉';
     btn.disabled = false;
-    SA('🎉','درخواست بھیج دی گئی','ایڈمن کی منظوری کے بعد آپ کو پاس ورڈ موصول ہوگا۔\nرکن ID: ' + mid);
-    setTimeout(function() { showScreen('sl'); }, 1800);
-  }
-
-  if (fbReady && db) {
-    db.collection('members').add(memberData).then(afterSave).catch(function(err) {
-      saveLocalMember(memberData);
-      afterSave();
-    });
-  } else {
-    saveLocalMember(memberData);
-    afterSave();
-  }
-}
-
-function saveLocalMember(memberData) {
-  var members = JSON.parse(localStorage.getItem('ppp_members') || '[]');
-  members.unshift(memberData);
-  localStorage.setItem('ppp_members', JSON.stringify(members));
+    SA('🎉','رجسٹریشن مکمل','آپ کا اکاؤنٹ بن گیا! آپ ابھی لاگ ان کر سکتے ہیں — ایڈمن کی تصدیق کے بعد آپ کا پروفائل مکمل تصدیق شدہ ہوگا۔\nرکن ID: ' + mid);
+    setTimeout(function() { showScreen('sl'); }, 2000);
+  }).catch(function(error) {
+    btn.innerHTML = 'رجسٹریشن مکمل کریں 🎉';
+    btn.disabled = false;
+    var msg = 'رجسٹریشن ناکام: ' + (error.code || '') + ' — ' + (error.message || JSON.stringify(error));
+    if (error.code === 'auth/email-already-in-use') msg = 'یہ ای میل پہلے سے رجسٹرڈ ہے — لاگ ان کریں';
+    else if (error.code === 'auth/weak-password') msg = 'پاس ورڈ کمزور ہے، مزید مضبوط بنائیں';
+    else if (error.code === 'auth/invalid-email') msg = 'ای میل کا فارمیٹ غلط ہے';
+    SA('❌','خرابی',msg);
+  });
 }
 
 // ═══ ADMIN ═══
@@ -1277,14 +1328,16 @@ function renderMembersList(members, isFirestore) {
     var row = document.createElement('div');
     row.className = 'ac';
     var statusBadge;
-    if (d.status === 'منظور') {
+    var verified = (d.status === 'تصدیق شدہ' || d.status === 'منظور' || d.status === 'فعال');
+    if (verified) {
       var adminBadge = d.isAdmin ? '<span class="bdg br" style="margin-top:4px;display:inline-block">🔐 ایڈمن</span>' : '';
       var adminBtn = d.isAdmin
         ? '<button style="font-size:9px;margin-top:4px;background:rgba(200,0,0,.2);border:1px solid rgba(220,0,0,.4);border-radius:8px;padding:4px 9px;color:#ff8888;cursor:pointer;display:block" onclick="toggleMemberAdmin(' + i + ',\'' + (isFirestore ? d._docId : '') + '\',' + (isFirestore ? 'true' : 'false') + ',false)">🚫 ایڈمن ہٹائیں</button>'
         : '<button style="font-size:9px;margin-top:4px;background:rgba(0,100,200,.2);border:1px solid rgba(0,120,220,.4);border-radius:8px;padding:4px 9px;color:#88bbff;cursor:pointer;display:block" onclick="toggleMemberAdmin(' + i + ',\'' + (isFirestore ? d._docId : '') + '\',' + (isFirestore ? 'true' : 'false') + ',true)">🔐 ایڈمن بنائیں</button>';
-      statusBadge = '<span class="bdg bg">منظور ✓</span><div style="font-size:8px;color:#ffd060;margin-top:3px;font-family:\'Orbitron\',sans-serif">پاس: ' + (d.password || '—') + '</div>' + adminBadge + adminBtn;
+      var verifyBtn = (d.status !== 'تصدیق شدہ') ? '<button style="font-size:9px;margin-top:4px;background:rgba(0,200,0,.2);border:1px solid rgba(0,200,0,.4);border-radius:8px;padding:4px 9px;color:#44ff88;cursor:pointer;display:block" onclick="verifyMember(' + i + ',\'' + (isFirestore ? d._docId : '') + '\',' + (isFirestore ? 'true' : 'false') + ')">✅ تصدیق کریں</button>' : '<span class="bdg bg" style="margin-top:4px;display:inline-block">✓ تصدیق شدہ</span>';
+      statusBadge = verifyBtn + adminBadge + adminBtn;
     } else {
-      statusBadge = '<button style="font-size:9px;margin-top:0;background:rgba(0,200,0,.2);border:1px solid rgba(0,200,0,.4);border-radius:8px;padding:5px 10px;color:#44ff88;cursor:pointer" onclick="approveMember(' + i + ',\'' + (isFirestore ? d._docId : '') + '\',' + (isFirestore ? 'true' : 'false') + ')">✅ منظور کریں</button>';
+      statusBadge = '<span class="bdg bo">زیرِ تصدیق</span>';
     }
     row.innerHTML = '<div class="aa">' + (d.photo ? '<img src="' + d.photo + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover">' : '👤') + '</div><div class="ai"><div class="an">' + (d.name || '') + '</div><div class="ap">' + (d.position || '') + '</div><div class="ad">' + (d.district || '') + ' | ' + (d.uc || '') + '</div><div class="aq">📱 ' + (d.phone || '') + ' | ID: ' + (d.memberId || d.id || '') + '</div></div><div style="text-align:center">' + statusBadge + '</div>';
     panel.appendChild(row);
@@ -1297,7 +1350,7 @@ function toggleMemberAdmin(idx, docId, isFirestore, makeAdmin) {
   var members = window._membersCache || [];
   var m = members[idx];
   if (!m) return;
-  var msg = makeAdmin ? (m.name + ' کو ایڈمن بنا دیا گیا — اب وہ ایڈمن پینل اپنے پاس ورڈ سے کھول سکیں گے۔') : (m.name + ' سے ایڈمن کا درجہ ہٹا دیا گیا۔');
+  var msg = makeAdmin ? (m.name + ' کو ایڈمن بنا دیا گیا۔') : (m.name + ' سے ایڈمن کا درجہ ہٹا دیا گیا۔');
   if (isFirestore && fbReady && db && docId) {
     db.collection('members').doc(docId).update({isAdmin: makeAdmin}).then(function() {
       SA(makeAdmin ? '🔐' : '✅', makeAdmin ? 'ایڈمن بنا دیا' : 'ایڈمن ہٹایا گیا', msg);
@@ -1314,36 +1367,26 @@ function toggleMemberAdmin(idx, docId, isFirestore, makeAdmin) {
   }
 }
 
-function approveMember(idx, docId, isFirestore) {
+function verifyMember(idx, docId, isFirestore) {
   var members = window._membersCache || [];
   var m = members[idx];
   if (!m) return;
-  var pass = generateMemberPassword(m);
   if (isFirestore && fbReady && db && docId) {
-    db.collection('members').doc(docId).update({status: 'منظور', password: pass}).then(function() {
-      SA('✅', 'ممبر منظور ہو گیا', 'پاس ورڈ: ' + pass + '\n\nیہ پاس ورڈ ممبر کو واٹس ایپ یا کال پر بھیجیں۔');
+    db.collection('members').doc(docId).update({status: 'تصدیق شدہ'}).then(function() {
+      SA('✅', 'تصدیق ہو گئی', m.name + ' کو تصدیق شدہ ممبر بنا دیا گیا');
       loadMembers();
       loadStats();
-    }).catch(function() {
-      SA('❌', 'خرابی', 'منظوری میں مسئلہ ہوا، دوبارہ کوشش کریں');
-    });
+    }).catch(function() { SA('❌', 'خرابی', 'تصدیق نہ ہو سکی'); });
   } else {
     var local = JSON.parse(localStorage.getItem('ppp_members') || '[]');
     for (var i = 0; i < local.length; i++) {
-      if (local[i].memberId === m.memberId) { local[i].status = 'منظور'; local[i].password = pass; break; }
+      if (local[i].memberId === m.memberId) { local[i].status = 'تصدیق شدہ'; break; }
     }
     localStorage.setItem('ppp_members', JSON.stringify(local));
-    SA('✅', 'ممبر منظور ہو گیا', 'پاس ورڈ: ' + pass + '\n\nیہ پاس ورڈ ممبر کو واٹس ایپ یا کال پر بھیجیں۔');
+    SA('✅', 'تصدیق ہو گئی', m.name + ' کو تصدیق شدہ ممبر بنا دیا گیا');
     loadMembers();
     loadStats();
   }
-}
-
-function generateMemberPassword(m) {
-  var phoneDigits = (m.phone || '').replace(/[^0-9]/g, '');
-  var last4 = phoneDigits.slice(-4) || Math.floor(1000 + Math.random() * 9000).toString();
-  var rand = Math.floor(10 + Math.random() * 90);
-  return 'ppp' + last4 + rand;
 }
 
 function updCS(idx, status) {
@@ -1757,6 +1800,97 @@ function escapeHtml(s) {
   return div.innerHTML;
 }
 
+// ═══ FORUM (topic-based discussions) ═══
+var currentForumTopic = '';
+var forumUnsub = null;
+var forumTopicNames = {
+  strategy: '🏛 پارٹی حکمت عملی',
+  social: '📣 سوشل میڈیا مہم',
+  issues: '🚨 عوامی مسائل',
+  ideas: '💡 تجاویز و آراء'
+};
+
+function openForumTopic(topicId) {
+  currentForumTopic = topicId;
+  document.getElementById('forumTopicsList').style.display = 'none';
+  document.getElementById('forumDiscussion').style.display = 'block';
+  document.getElementById('forumTopicTitle').textContent = forumTopicNames[topicId] || topicId;
+  loadForumMessages(topicId);
+}
+
+function closeForumTopic() {
+  if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+  document.getElementById('forumTopicsList').style.display = 'block';
+  document.getElementById('forumDiscussion').style.display = 'none';
+}
+
+function loadForumMessages(topicId) {
+  var box = document.getElementById('forumMsgs');
+  box.innerHTML = '<div style="text-align:center;padding:20px"><div class="sp"></div></div>';
+  if (fbReady && db) {
+    if (forumUnsub) { forumUnsub(); forumUnsub = null; }
+    forumUnsub = db.collection('forum').where('topic', '==', topicId).orderBy('time', 'asc').limitToLast(100).onSnapshot(function(snap) {
+      var msgs = [];
+      snap.forEach(function(doc) { msgs.push(doc.data()); });
+      renderForumMsgs(msgs);
+    }, function() {
+      renderForumMsgsLocal(topicId);
+    });
+  } else {
+    renderForumMsgsLocal(topicId);
+  }
+}
+
+function renderForumMsgsLocal(topicId) {
+  var all = JSON.parse(localStorage.getItem('ppp_forum') || '[]');
+  var filtered = [];
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].topic === topicId) filtered.push(all[i]);
+  }
+  renderForumMsgs(filtered);
+}
+
+function renderForumMsgs(msgs) {
+  var box = document.getElementById('forumMsgs');
+  if (!msgs.length) {
+    box.innerHTML = '<div style="text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,.4)">ابھی تک کوئی بحث نہیں — پہلا پیغام آپ کریں! 🌹</div>';
+    return;
+  }
+  box.innerHTML = '';
+  for (var i = 0; i < msgs.length; i++) {
+    var m = msgs[i];
+    var mine = m.userName === cUser;
+    var bubble = document.createElement('div');
+    bubble.style.cssText = 'max-width:85%;align-self:' + (mine ? 'flex-end' : 'flex-start') + ';background:' + (mine ? 'linear-gradient(135deg,#7a0000,#aa0000)' : 'rgba(255,255,255,.07)') + ';border-radius:12px;padding:9px 13px;';
+    bubble.innerHTML = (mine ? '' : '<div style="font-size:9px;color:#00dd00;margin-bottom:3px;font-weight:600">' + escapeHtml(m.userName || '') + '</div>') + '<div style="font-size:12px;color:#fff;line-height:1.7">' + escapeHtml(m.text || '') + '</div><div style="font-size:8px;color:rgba(255,255,255,.35);margin-top:4px;text-align:left">' + formatChatTime(m.time) + '</div>';
+    box.appendChild(bubble);
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+function sendForumMessage() {
+  var input = document.getElementById('forumInput');
+  var text = input.value.trim();
+  if (!text) return;
+  var entry = {topic: currentForumTopic, userName: cUser || 'کارکن', text: text, time: new Date().toISOString()};
+  input.value = '';
+  if (fbReady && db) {
+    db.collection('forum').add(entry).catch(function() {
+      saveForumLocal(entry);
+    });
+  } else {
+    saveForumLocal(entry);
+  }
+}
+
+function saveForumLocal(entry) {
+  var all = JSON.parse(localStorage.getItem('ppp_forum') || '[]');
+  all.push(entry);
+  if (all.length > 300) all = all.slice(all.length - 300);
+  localStorage.setItem('ppp_forum', JSON.stringify(all));
+  renderForumMsgsLocal(entry.topic);
+}
+
 
 function showScreen(id) {
   var ss = document.querySelectorAll('.screen');
@@ -1780,6 +1914,7 @@ function navTo(page) {
   if (page === 'pad' && isAdm) { loadMembers(); loadAdminComplaints(); loadActivistQueue(); }
   if (page === 'pc2') loadComplaints();
   if (page === 'pch') loadChat();
+  if (page === 'pfr') { document.getElementById('forumTopicsList').style.display = 'block'; document.getElementById('forumDiscussion').style.display = 'none'; if (forumUnsub) { forumUnsub(); forumUnsub = null; } }
   if (page === 'prp') renderReps(REPS);
   if (page === 'pd') loadStats();
   if (page === 'pkf') loadKarkanFeed();
@@ -1813,16 +1948,24 @@ function goBack() {
 // ═══ LOGOUT ═══
 function logout() {
   if (!confirm('کیا آپ واقعی لاگ آؤٹ کرنا چاہتے ہیں؟')) return;
-  isAdm = false;
-  cUser = '';
-  document.getElementById('aab').style.display = 'none';
-  document.getElementById('lu').value = '';
-  document.getElementById('lp').value = '';
-  var ts = document.querySelectorAll('.rt');
-  for (var i = 0; i < ts.length; i++) ts[i].classList.remove('active');
-  ts[0].classList.add('active');
-  cRole = 'ورکر';
-  showScreen('sl');
+  function afterSignOut() {
+    isAdm = false;
+    cUser = '';
+    cUserId = '';
+    document.getElementById('aab').style.display = 'none';
+    document.getElementById('lu').value = '';
+    document.getElementById('lp').value = '';
+    var ts = document.querySelectorAll('.rt');
+    for (var i = 0; i < ts.length; i++) ts[i].classList.remove('active');
+    ts[0].classList.add('active');
+    cRole = 'ورکر';
+    showScreen('sl');
+  }
+  if (fbReady && auth) {
+    auth.signOut().then(afterSignOut).catch(afterSignOut);
+  } else {
+    afterSignOut();
+  }
 }
 
 // ═══ SHARE ═══
